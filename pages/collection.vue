@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">MTG App</h1>
+    <h1 class="text-center">Collection</h1>
   </div>
 </template>
 
