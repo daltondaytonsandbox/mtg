@@ -1,30 +1,20 @@
 /* eslint-disable no-console */
+const { Nuxt, Builder } = require('nuxt')
+const bodyParser = require('body-parser')
 const express = require('express')
 const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
 const app = express()
-const mongoose = require('mongoose')
 
-// Mongoose Set Up
-mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true })
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function() {
-  // Connected
-  // const kittySchema = new mongoose.Schema({
-  //   name: String
-  // })
-  // const Kitten = mongoose.model('Kitten', kittySchema)
-  // const silence = new Kitten({ name: 'Silence' })
-  // const fluffy = new Kitten({ name: 'fluffy' })
-  // fluffy.save(function(err, fluffy) {
-  //   if (err) return console.error(err)
-  // })
-})
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
+
+// Import API routes
+const apiRoutes = require('./routes/api-routes')
+app.use('/api', apiRoutes)
 
 async function start() {
   // Init Nuxt.js
@@ -51,3 +41,21 @@ async function start() {
   })
 }
 start()
+
+// const mongoose = require('mongoose')
+// Mongoose Set Up
+// mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true })
+// const db = mongoose.connection
+// db.on('error', console.error.bind(console, 'connection error:'))
+// db.once('open', function() {
+//   // Connected
+//   // const kittySchema = new mongoose.Schema({
+//   //   name: String
+//   // })
+//   // const Kitten = mongoose.model('Kitten', kittySchema)
+//   // const silence = new Kitten({ name: 'Silence' })
+//   // const fluffy = new Kitten({ name: 'fluffy' })
+//   // fluffy.save(function(err, fluffy) {
+//   //   if (err) return console.error(err)
+//   // })
+// })

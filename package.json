@@ -14,6 +14,7 @@
   "dependencies": {
     "@mdi/font": "^4.5.95",
     "@nuxtjs/axios": "^5.3.6",
+    "body-parser": "^1.19.0",
     "cross-env": "^6.0.3",
     "express": "^4.17.1",
     "mongodb": "^3.3.2",
