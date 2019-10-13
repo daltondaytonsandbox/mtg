@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>
-        <!-- MTG App -->
-      </v-toolbar-title>
+      <router-link id="brand" to="/" tag="v-toolbar-title">
+        MTG App
+      </router-link>
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
@@ -25,12 +25,12 @@ export default {
     return {
       links: [
         {
-          label: 'Dashboard',
+          label: 'Home',
           url: '/'
         },
         {
-          label: 'Collection',
-          url: '/collection'
+          label: 'Test',
+          url: '/test'
         }
       ]
     }
@@ -38,4 +38,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#brand {
+  cursor: pointer;
+}
+</style>
