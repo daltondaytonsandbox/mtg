@@ -4,7 +4,7 @@
 
     <v-content>
       <v-container fluid>
-        <transition name="slide-fade">
+        <transition name="slide-fade" appear>
           <nuxt />
         </transition>
       </v-container>
