@@ -2,7 +2,7 @@
   <div>
     <v-app-bar app color="primary" dark>
       <v-toolbar-title>
-        MTG App
+        <!-- MTG App -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn

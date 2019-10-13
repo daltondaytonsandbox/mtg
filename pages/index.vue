@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">MTG App</h1>
+    <!-- <h1 class="text-center">MTG App</h1> -->
 
     <v-form>
       <v-container>
@@ -13,13 +13,15 @@
             <v-text-field v-model="age" label="Age" required></v-text-field>
           </v-col>
         </v-row>
-        <v-btn class="mr-4" @click="submit">submit</v-btn>
+        <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
+        <input @keyup.enter="submit" />
       </v-container>
     </v-form>
-    {{ response }}
+
     <v-divider />
     <ul>
       <li v-for="user in users" :key="user.id">
+        <v-btn @click="removeUser(user)">X</v-btn>
         {{ user.name }} is {{ user.age }} years old
       </li>
     </ul>
@@ -31,8 +33,7 @@ export default {
   data() {
     return {
       name: '',
-      age: '',
-      response: 'before...'
+      age: ''
     }
   },
   async asyncData({ $axios }) {
@@ -41,15 +42,17 @@ export default {
   },
   methods: {
     async submit() {
-      // eslint-disable-next-line no-console
-      console.log('response: ')
-      this.response = await this.$axios.$post('/api/users', {
+      await this.$axios.$post('/api/users', {
         name: this.name,
         age: this.age
       })
-      // eslint-disable-next-line no-console
-      console.log(this.response)
+      this.name = ''
+      this.age = ''
 
+      this.users = await this.$axios.$get('/api/users')
+    },
+    async removeUser(user) {
+      await this.$axios.delete('/api/users/' + user._id)
       this.users = await this.$axios.$get('/api/users')
     }
   }
