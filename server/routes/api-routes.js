@@ -18,14 +18,13 @@ mongoose.connect(db, (err, res) => {
 
 // GET
 router.get('/users', function(req, res) {
-  // Model.find({}, (err, users) => {
-  //   if (err) {
-  //     res.status(404).send('an error!')
-  //   } else {
-  //     res.status(200).send('no error!')
-  //   }
-  // })
-  res.send('the get route')
+  Model.find({}, (err, users) => {
+    if (err) {
+      res.status(404).send('an error!')
+    } else {
+      res.status(200).send(users)
+    }
+  })
 })
 
 // post

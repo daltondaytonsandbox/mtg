@@ -17,6 +17,12 @@
       </v-container>
     </v-form>
     {{ response }}
+    <v-divider />
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{ user.name }} is {{ user.age }} years old
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -29,14 +35,22 @@ export default {
       response: 'before...'
     }
   },
+  async asyncData({ $axios }) {
+    const users = await $axios.$get('/api/users')
+    return { users }
+  },
   methods: {
     async submit() {
+      // eslint-disable-next-line no-console
       console.log('response: ')
       this.response = await this.$axios.$post('/api/users', {
         name: this.name,
         age: this.age
       })
+      // eslint-disable-next-line no-console
       console.log(this.response)
+
+      this.users = await this.$axios.$get('/api/users')
     }
   }
 }
