@@ -28,6 +28,8 @@ mongoose.connect(
 // Create - POST
 router.post('/register', (req, res) => {
   const newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     username: req.body.username,
     email: req.body.email
   })
@@ -38,7 +40,7 @@ router.post('/register', (req, res) => {
     }
     passport.authenticate('local')(req, res, () => {
       console.log('Success: ')
-      console.log(user.username)
+      console.log(user.firstName + ' ' + user.lastName)
     })
   })
   return res.redirect('/test')

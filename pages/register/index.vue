@@ -5,7 +5,20 @@
         <h1>Sign Up</h1>
         <v-card class="mx-auto mt-5 pa-5">
           <v-form>
-            <v-text-field v-model="username" label="Username"></v-text-field>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="firstName"
+                  label="First Name"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="lastName"
+                  label="Last Name"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
             <v-text-field
               v-model="email"
@@ -13,11 +26,22 @@
               type="email"
             ></v-text-field>
 
-            <v-text-field
-              v-model="password"
-              label="Password"
-              type="password"
-            ></v-text-field>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="password"
+                  label="Password"
+                  type="password"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
             <v-btn type="submit" color="primary" @click.prevent="submit"
               >Submit</v-btn
@@ -33,21 +57,32 @@
 export default {
   data() {
     return {
-      username: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
+    }
+  },
+  computed: {
+    username() {
+      return this.firstName + this.lastName
     }
   },
   methods: {
     async submit() {
       await this.$axios.$post('/api/register', {
+        firstName: this.firstName,
+        lastName: this.lastName,
         username: this.username,
         email: this.email,
         password: this.password
       })
-      this.username = ''
+      this.firstName = ''
+      this.lastName = ''
       this.email = ''
       this.password = ''
+      this.confirmPassword = ''
       window.location.href = '/test'
     }
   }
