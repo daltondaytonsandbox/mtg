@@ -3,9 +3,9 @@
     <!-- <h1 class="text-center">MTG App</h1> -->
 
     <ul>
-      <li v-for="user in users" :key="user.id">
+      <li v-for="user in users" :key="user._id">
         <v-btn @click="removeUser(user)">X</v-btn>
-        - {{ user }}
+        {{ user }}
       </li>
     </ul>
   </div>
@@ -13,12 +13,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      name: '',
-      age: ''
-    }
-  },
   async asyncData({ $axios }) {
     const users = await $axios.$get('/api/users')
     return { users }

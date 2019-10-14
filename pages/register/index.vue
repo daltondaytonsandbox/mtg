@@ -64,17 +64,12 @@ export default {
       confirmPassword: ''
     }
   },
-  computed: {
-    username() {
-      return this.firstName + this.lastName
-    }
-  },
   methods: {
     async submit() {
       await this.$axios.$post('/api/register', {
         firstName: this.firstName,
         lastName: this.lastName,
-        username: this.username,
+        username: this.email,
         email: this.email,
         password: this.password
       })

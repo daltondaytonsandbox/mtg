@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const User = require('../models/user')
 const Person = require('../models/person')
+// require('../config/passport')
 
 const router = Router()
 
@@ -43,6 +44,13 @@ router.post('/register', (req, res) => {
       console.log(user.firstName + ' ' + user.lastName)
     })
   })
+  return res.redirect('/test')
+})
+
+// Log In
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log('logged in')
+  console.log(req.user)
   return res.redirect('/test')
 })
 

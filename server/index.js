@@ -1,5 +1,7 @@
 const { Nuxt, Builder } = require('nuxt')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 const express = require('express')
 const consola = require('consola')
 const app = express()
@@ -10,6 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
+
+const User = require('./models/user')
+passport.use(new LocalStrategy(User.authenticate()))
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport')
 
 // Import API routes
 const apiRoutes = require('./routes/api-routes')
