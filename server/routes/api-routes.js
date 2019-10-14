@@ -1,7 +1,6 @@
 const { Router } = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
-// const Models = require('../models/models')
 const User = require('../models/user')
 const Person = require('../models/person')
 
@@ -21,22 +20,6 @@ mongoose.connect(
     }
   }
 )
-
-// ====================
-// === Card Routes ===
-// ====================
-
-// GET
-// router.get('/cards', function(req, res) {
-//   Models.Card.find({}, (err, cards) => {
-//     if (err) {
-//       res.status(404).send(err)
-//     } else {
-//       console.log('success')
-//       res.status(200).send(cards)
-//     }
-//   })
-// })
 
 // ====================
 // === Users Routes ===
