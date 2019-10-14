@@ -78,7 +78,7 @@ export default {
       this.email = ''
       this.password = ''
       this.confirmPassword = ''
-      window.location.href = '/test'
+      window.location.href = '/login'
     }
   }
 }

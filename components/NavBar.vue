@@ -8,42 +8,60 @@
       <v-toolbar-title>galdr</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn
-        v-for="link in links"
-        :key="`${link.label}-header-link`"
-        text
-        rounded
-        :to="link.url"
-      >
-        {{ link.label }}
+
+      <!-- user: {{ user }} -->
+      Hello {{ firstName }}!
+
+      <v-spacer></v-spacer>
+
+      <v-btn text rounded :to="'/'">Home</v-btn>
+      <v-btn text rounded :to="'/test'">Test</v-btn>
+
+      <v-divider
+        v-if="firstName == 'No one'"
+        class="mx-4"
+        inset
+        vertical
+      ></v-divider>
+
+      <v-btn v-if="firstName == 'No one'" text rounded :to="'/login'">
+        Log In
+      </v-btn>
+      <v-btn v-if="firstName == 'No one'" text rounded :to="'/register'">
+        Register
+      </v-btn>
+
+      <v-divider
+        v-if="firstName != 'No one'"
+        class="mx-4"
+        inset
+        vertical
+      ></v-divider>
+
+      <v-btn v-if="firstName != 'No one'" text rounded @click="logout">
+        Log out
       </v-btn>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'NavBar',
-  data() {
-    return {
-      links: [
-        {
-          label: 'Home',
-          url: '/'
-        },
-        {
-          label: 'Test',
-          url: '/test'
-        },
-        {
-          label: 'Log in',
-          url: '/login'
-        },
-        {
-          label: 'Register',
-          url: '/register'
-        }
-      ]
+  computed: mapState({
+    // user: (state) => state.user,
+    firstName: (state) => state.firstName
+  }),
+  async fetch({ store, req }) {
+    await console.log(req.user)
+  },
+  methods: {
+    async logout() {
+      await this.$axios.$get('/api/logout', {})
+
+      window.location.href = '/'
     }
   }
 }

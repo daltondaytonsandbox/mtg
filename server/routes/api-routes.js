@@ -37,21 +37,25 @@ router.post('/register', (req, res) => {
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
       console.log(err)
-      return res.redirect('register')
+      return res.redirect('/register')
     }
     passport.authenticate('local')(req, res, () => {
       console.log('Success: ')
       console.log(user.firstName + ' ' + user.lastName)
     })
   })
-  return res.redirect('/test')
+  return res.redirect('/login')
 })
 
 // Log In
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('logged in')
-  console.log(req.user)
   return res.redirect('/test')
+})
+
+// Log Out
+router.get('/logout', function(req, res) {
+  req.logout()
+  return res.redirect('/')
 })
 
 // Read - GET
