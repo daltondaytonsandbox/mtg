@@ -1,7 +1,9 @@
-/* eslint-disable no-console */
 const { Router } = require('express')
 const mongoose = require('mongoose')
-const Models = require('../models/models')
+const passport = require('passport')
+// const Models = require('../models/models')
+const User = require('../models/user')
+const Person = require('../models/person')
 
 const router = Router()
 
@@ -20,9 +22,9 @@ mongoose.connect(
   }
 )
 
-/// /////////
-/// CARDS ///
-/// /////////
+// ====================
+// === Card Routes ===
+// ====================
 
 // GET
 // router.get('/cards', function(req, res) {
@@ -36,13 +38,32 @@ mongoose.connect(
 //   })
 // })
 
-/// /////////
-/// USERS ///
-/// /////////
+// ====================
+// === Users Routes ===
+// ====================
 
-// GET
+// Create - POST
+router.post('/register', (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email
+  })
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err)
+      return res.redirect('register')
+    }
+    passport.authenticate('local')(req, res, () => {
+      console.log('Success: ')
+      console.log(user.username)
+    })
+  })
+  return res.redirect('/test')
+})
+
+// Read - GET
 router.get('/users', function(req, res) {
-  Models.User.find({}, (err, users) => {
+  User.find({}, (err, users) => {
     if (err) {
       res.status(404).send(err)
     } else {
@@ -51,20 +72,42 @@ router.get('/users', function(req, res) {
   })
 })
 
-// POST
-router.post('/users', function(req, res) {
-  const User = new Models.User(req.body)
-  User.save()
-  res.status(201).send(User)
-})
-
-// UPDATE
-// router.put()
-
-// DESTROY
+// Destroy - Delete
 router.delete('/users/:id', (req, res, next) => {
   res.send(req.params.id)
-  Models.User.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+  User.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+    if (err) return next(err)
+  })
+})
+
+// ====================
+// === People Routes ===
+// ====================
+
+// Create - POST
+router.post('/people', function(req, res) {
+  const newPerson = new Person(req.body)
+  newPerson.save()
+  res.status(201).send(newPerson)
+})
+
+// Read - GET
+router.get('/people', function(req, res) {
+  Person.find({}, (err, people) => {
+    if (err) {
+      res.status(404).send(err)
+    } else {
+      res.status(200).send(people)
+    }
+  })
+})
+
+// Update - PUT
+
+// Destroy - DELETE
+router.delete('/people/:id', (req, res, next) => {
+  res.send(req.params.id)
+  Person.findByIdAndRemove(req.params.id, req.body, (err, post) => {
     if (err) return next(err)
   })
 })
