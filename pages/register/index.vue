@@ -78,7 +78,16 @@ export default {
       this.email = ''
       this.password = ''
       this.confirmPassword = ''
-      window.location.href = '/login'
+
+      const notification = {
+        type: 'success',
+        message: 'Registered!'
+      }
+      this.$store.dispatch('notification/add', notification)
+
+      this.$router.push({
+        name: 'login'
+      })
     }
   }
 }

@@ -45,11 +45,26 @@ export default {
         .$post('/api/login', data)
         .then((response) => {
           console.log('logged in')
-          window.location.href = '/test'
+          const notification = {
+            type: 'success',
+            message: 'Logged In!'
+          }
+          this.$store.dispatch('notification/add', notification)
+          // Window resets app, router doesn't
+          // window.location.href = '/test'
+          this.$router.push({
+            name: 'test',
+            params: 'theseAreParams??'
+          })
         })
         .catch((err) => {
           console.log('error: ')
           console.log(err)
+          const notification = {
+            type: 'error',
+            message: 'Invalid Username or Password'
+          }
+          this.$store.dispatch('notification/add', notification)
         })
     }
   }
