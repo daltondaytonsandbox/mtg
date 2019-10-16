@@ -11,23 +11,24 @@
                   v-model="task"
                   label="Task"
                   required
+                  @keyup.enter="submit"
                 ></v-text-field>
               </v-col>
             </v-row>
             <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
-            <input @keyup.enter="submit" />
+            <input />
           </v-form>
 
           <br />
           <v-divider />
           <br />
           <ol>
-            <li v-for="task in tasks" :key="task.id">
+            <li v-for="tasky in tasks" :key="tasky.id">
               <v-container>
                 <v-layout>
-                  <div :class="[{ checked: isDone }]">{{ task.task }}</div>
+                  <div>{{ tasky.task }}</div>
                   &nbsp;
-                  <v-icon @click="removeTask(task)">
+                  <v-icon @click="removeTask(tasky)">
                     mdi-close
                   </v-icon>
                 </v-layout>
@@ -52,6 +53,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      task: ''
+    }
+  },
   async asyncData({ $axios }) {
     const users = await $axios.$get('/api/users')
     const tasks = await $axios.$get('/api/tasks')

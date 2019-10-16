@@ -60,12 +60,12 @@ export default {
           url: '/'
         },
         {
-          label: 'Test',
-          url: '/test'
-        },
-        {
           label: 'Collection',
           url: '/collection'
+        },
+        {
+          label: 'Test',
+          url: '/test'
         }
       ]
     }
