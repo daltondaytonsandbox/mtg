@@ -2,7 +2,7 @@ const { Router } = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const User = require('../models/user')
-const Person = require('../models/person')
+const Task = require('../models/task')
 // require('../config/passport')
 
 const router = Router()
@@ -78,23 +78,23 @@ router.delete('/users/:id', (req, res, next) => {
 })
 
 // ====================
-// === People Routes ===
+// === Tasks Routes ===
 // ====================
 
 // Create - POST
-router.post('/people', function(req, res) {
-  const newPerson = new Person(req.body)
-  newPerson.save()
-  res.status(201).send(newPerson)
+router.post('/tasks', function(req, res) {
+  const newTask = new Task(req.body)
+  newTask.save()
+  res.status(201).send(newTask)
 })
 
 // Read - GET
-router.get('/people', function(req, res) {
-  Person.find({}, (err, people) => {
+router.get('/tasks', function(req, res) {
+  Task.find({}, (err, tasks) => {
     if (err) {
       res.status(404).send(err)
     } else {
-      res.status(200).send(people)
+      res.status(200).send(tasks)
     }
   })
 })
@@ -102,9 +102,9 @@ router.get('/people', function(req, res) {
 // Update - PUT
 
 // Destroy - DELETE
-router.delete('/people/:id', (req, res, next) => {
+router.delete('/tasks/:id', (req, res, next) => {
   res.send(req.params.id)
-  Person.findByIdAndRemove(req.params.id, req.body, (err, post) => {
+  Task.findByIdAndRemove(req.params.id, req.body, (err, post) => {
     if (err) return next(err)
   })
 })

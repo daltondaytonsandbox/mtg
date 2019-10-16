@@ -15,8 +15,9 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text rounded :to="'/'">Home</v-btn>
-      <v-btn text rounded :to="'/test'">Test</v-btn>
+      <v-btn v-for="link in links" :key="link.id" text rounded :to="link.url">
+        {{ link.label }}
+      </v-btn>
 
       <v-divider
         v-if="firstName == 'No one'"
@@ -51,6 +52,24 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'NavBar',
+  data() {
+    return {
+      links: [
+        {
+          label: 'Home',
+          url: '/'
+        },
+        {
+          label: 'Test',
+          url: '/test'
+        },
+        {
+          label: 'Collection',
+          url: '/collection'
+        }
+      ]
+    }
+  },
   computed: mapState({
     // user: (state) => state.user,
     firstName: (state) => state.firstName

@@ -1,62 +1,63 @@
 <template>
   <div>
-    <h1 class="text-center">Lorem</h1>
+    <h1 class="text-center">To Do</h1>
 
-    <v-form>
-      <v-container>
+    <v-container>
+      <v-form>
         <v-row>
           <v-col cols="12" md="4">
-            <v-text-field v-model="name" label="Name" required></v-text-field>
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-text-field v-model="age" label="Age" required></v-text-field>
+            <v-text-field v-model="task" label="Task" required></v-text-field>
           </v-col>
         </v-row>
         <v-btn class="mr-4" @click.prevent="submit">submit</v-btn>
         <input @keyup.enter="submit" />
-      </v-container>
-    </v-form>
+      </v-form>
 
-    <v-divider />
-    <ul>
-      <li v-for="person in people" :key="person.id">
-        <v-btn @click="removePerson(person)">X</v-btn>
-        - {{ person }}
-      </li>
-    </ul>
+      <br />
+      <v-divider />
+      <br />
+      <ol>
+        <li v-for="task in tasks" :key="task.id">
+          <v-container>
+            <v-layout>
+              <div :class="[{ checked: isDone }]">{{ task.task }}</div>
+              &nbsp;
+              <v-icon @click="removeTask(task)">
+                mdi-close
+              </v-icon>
+            </v-layout>
+          </v-container>
+        </li>
+      </ol>
+    </v-container>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      name: '',
-      age: ''
-    }
-  },
   async asyncData({ $axios }) {
-    const people = await $axios.$get('/api/people')
-    return { people }
+    const tasks = await $axios.$get('/api/tasks')
+    return { tasks }
   },
   methods: {
     async submit() {
-      await this.$axios.$post('/api/people', {
-        name: this.name,
-        age: this.age
+      await this.$axios.$post('/api/tasks', {
+        task: this.task
       })
-      this.name = ''
-      this.age = ''
+      this.task = ''
 
-      this.people = await this.$axios.$get('/api/people')
+      this.tasks = await this.$axios.$get('/api/tasks')
     },
-    async removePerson(person) {
-      await this.$axios.delete('/api/people/' + person._id)
-      this.people = await this.$axios.$get('/api/people')
+    async removeTask(task) {
+      await this.$axios.delete('/api/tasks/' + task._id)
+      this.tasks = await this.$axios.$get('/api/tasks')
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.checked {
+  text-decoration: line-through;
+}
+</style>
