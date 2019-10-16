@@ -2,11 +2,12 @@
   <div>
     <v-app-bar app color="indigo" dark>
       <router-link id="brand" to="/">
-        <img id="brandLogo" src="~/assets/logo.png" />
+        <!-- <img id="brandLogo" src="~/assets/logo.png" /> -->
+        <div id="brandLogo"></div>
       </router-link>
-
-      <v-toolbar-title>galdr</v-toolbar-title>
-
+      <router-link id="brandName" to="/">
+        <v-toolbar-title>galdr</v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
 
       <!-- user: {{ user }} -->
@@ -72,8 +73,18 @@ export default {
   cursor: pointer;
 }
 
+#brandName {
+  color: white;
+  text-decoration: none;
+}
+
 #brandLogo {
-  height: 55px;
-  margin: 5px 10px 0 0;
+  height: 50px;
+  width: 50px;
+  background-image: url('../assets/logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 0 10px 0 0;
 }
 </style>
