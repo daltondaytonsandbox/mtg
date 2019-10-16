@@ -19,28 +19,18 @@
         {{ link.label }}
       </v-btn>
 
-      <v-divider
-        v-if="firstName == 'No one'"
-        class="mx-4"
-        inset
-        vertical
-      ></v-divider>
+      <v-divider v-if="!firstName" class="mx-4" inset vertical></v-divider>
 
-      <v-btn v-if="firstName == 'No one'" text rounded :to="'/login'">
+      <v-btn v-if="!firstName" text rounded :to="'/login'">
         Log In
       </v-btn>
-      <v-btn v-if="firstName == 'No one'" text rounded :to="'/register'">
+      <v-btn v-if="!firstName" text rounded :to="'/register'">
         Register
       </v-btn>
 
-      <v-divider
-        v-if="firstName != 'No one'"
-        class="mx-4"
-        inset
-        vertical
-      ></v-divider>
+      <v-divider v-if="firstName" class="mx-4" inset vertical></v-divider>
 
-      <v-btn v-if="firstName != 'No one'" text rounded @click="logout">
+      <v-btn v-if="firstName" text rounded @click="logout">
         Log out
       </v-btn>
     </v-app-bar>
@@ -71,17 +61,19 @@ export default {
     }
   },
   computed: mapState({
-    // user: (state) => state.user,
     firstName: (state) => state.firstName
   }),
-  async fetch({ store, req }) {
-    await console.log(req.user)
-  },
+  // async fetch({ store, req }) {
+  //   await console.log('fetch log? - ' + req.user)
+  // },
   methods: {
     async logout() {
       await this.$axios.$get('/api/logout', {})
 
       window.location.href = '/'
+      // this.$router.push({
+      //   name: 'index'
+      // })
     }
   }
 }

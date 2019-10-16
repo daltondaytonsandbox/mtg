@@ -1,6 +1,6 @@
 export const state = () => ({
   user: 'none',
-  firstName: 'No one'
+  firstName: null
 })
 
 export const mutations = {
@@ -18,11 +18,10 @@ export const actions = {
       if (req.session.passport.user) {
         commit('SET_USER', req.session.passport.user)
         commit('SET_FIRST_NAME', req.user.firstName)
-      } else {
       }
     } catch (error) {
-      console.log('catch error')
-      console.log(error)
+      // console.log('catch error')
+      // console.log(error)
     }
   }
 }

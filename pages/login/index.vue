@@ -51,11 +51,10 @@ export default {
           }
           this.$store.dispatch('notification/add', notification)
           // Window resets app, router doesn't
-          // window.location.href = '/test'
-          this.$router.push({
-            name: 'test',
-            params: 'theseAreParams??'
-          })
+          window.location.href = '/test'
+          // this.$router.push({
+          //   name: 'test'
+          // })
         })
         .catch((err) => {
           console.log('error: ')
