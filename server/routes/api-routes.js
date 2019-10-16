@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const User = require('../models/user')
 const Task = require('../models/task')
+const Card = require('../models/card')
 // require('../config/passport')
 
 const router = Router()
@@ -22,9 +23,42 @@ mongoose.connect(
   }
 )
 
+// ===================
+// === Card Routes ===
+// ===================
+
+// Create - POST
+// Read - GET
+router.get('/cards', function(req, res) {
+  Card.find(
+    { name: { $regex: req.query.searchInput, $options: 'i' } },
+    (err, cards) => {
+      if (err) {
+        res.status(404).send(err)
+      } else {
+        res.status(200).send(cards)
+      }
+    }
+  )
+})
+
+// Update - PUT
+// Destroy - DELETE
+
 // ====================
 // === Users Routes ===
 // ====================
+
+// Log In
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  return res.redirect('/test')
+})
+
+// Log Out
+router.get('/logout', function(req, res) {
+  req.logout()
+  return res.redirect('/')
+})
 
 // Create - POST
 router.post('/register', (req, res) => {
@@ -45,17 +79,6 @@ router.post('/register', (req, res) => {
     })
   })
   return res.redirect('/login')
-})
-
-// Log In
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  return res.redirect('/test')
-})
-
-// Log Out
-router.get('/logout', function(req, res) {
-  req.logout()
-  return res.redirect('/')
 })
 
 // Read - GET
