@@ -6,7 +6,8 @@ const UserSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   email: String,
-  password: String
+  password: String,
+  cardCollection: Array
 })
 
 UserSchema.plugin(passportLocalMongoose)

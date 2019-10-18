@@ -45,11 +45,13 @@ export default {
         .$post('/api/login', data)
         .then((response) => {
           console.log('logged in')
+
           const notification = {
             type: 'success',
             message: 'Logged In!'
           }
           this.$store.dispatch('notification/add', notification)
+
           // Window resets app, router doesn't
           window.location.href = '/test'
           // this.$router.push({
