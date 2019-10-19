@@ -94,3 +94,6 @@ cards.json
 
 #psd
 /psd
+
+#secrets
+secrets.js

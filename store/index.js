@@ -20,6 +20,7 @@ export const actions = {
         commit('SET_FIRST_NAME', req.user.firstName)
       }
     } catch (error) {
+      // Triggers when first entering site, before logging in
       // console.log('catch error')
       // console.log(error)
     }

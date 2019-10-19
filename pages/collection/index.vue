@@ -17,7 +17,7 @@
           </div>
           <ul v-if="cards.length > 0">
             <li v-for="card in cards" :key="card._id">
-              <v-tooltip bottom>
+              <v-tooltip v-if="card.image_uris" bottom>
                 <template v-slot:activator="{ on }">
                   <span v-on="on">
                     {{ card.name }}
@@ -36,8 +36,15 @@
         <v-divider class="mx-4" vertical></v-divider>
         <v-col>
           <!-- Right Column -->
-          <h1 class="text-center">My Collection</h1>
-          <!--  -->
+          <h1 class="text-center">{{ firstName }}'s Collection</h1>
+          <h2>-{{ userName }}-</h2>
+          <ul>
+            <div v-for="(user, index) in users" :key="index">
+              <li v-for="card in user.cardCollection" :key="card.id">
+                {{ card }}
+              </li>
+            </div>
+          </ul>
         </v-col>
       </v-row>
     </v-container>
@@ -45,14 +52,36 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
       cards: [],
       searchAttempt: false,
       noResultMessage: 'No Cards Found',
-      searchInput: ''
+      searchInput: '',
+      users: {}
     }
+  },
+  computed: mapState({
+    firstName: (state) => state.firstName,
+    userName: (state) => state.user
+  }),
+  async asyncData({ $axios, store }) {
+    const users = await $axios.$get('/api/user', {
+      params: {
+        userName: store.state.user
+      }
+    })
+    return { users }
+  },
+  async updated() {
+    this.users = await this.$axios.$get('/api/user', {
+      params: {
+        userName: this.$store.state.user
+      }
+    })
   },
   methods: {
     async searchCards() {

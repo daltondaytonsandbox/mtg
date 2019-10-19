@@ -4,21 +4,24 @@ const passport = require('passport')
 const User = require('../models/user')
 const Task = require('../models/task')
 const Card = require('../models/card')
+const Secrets = require('../config/secrets')
 // require('../config/passport')
 
 const router = Router()
 
 const db =
-  'mongodb+srv://dalton:dalton@cluster0-ofsc3.mongodb.net/main?retryWrites=true&w=majority'
+  'mongodb+srv://dalton:' +
+  Secrets.MONGO_PASSWORD +
+  '@cluster0-ofsc3.mongodb.net/main?retryWrites=true&w=majority'
 
 mongoose.connect(
   db,
   { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true },
   (err, res) => {
     if (err) {
-      console.log('Failed to connected to ' + db)
+      console.log('Failed to connect')
     } else {
-      console.log('Connected to ' + db)
+      console.log('Connected to Mongo DB')
     }
   }
 )
@@ -41,7 +44,6 @@ router.post('/users', (req, res) => {
         console.log('Error: ')
         console.log(err)
       }
-      console.log(user)
     }
   )
   // add to collection array
@@ -79,7 +81,7 @@ router.get('/logout', function(req, res) {
   return res.redirect('/')
 })
 
-// Create - POST
+// Create User - POST
 router.post('/register', (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
