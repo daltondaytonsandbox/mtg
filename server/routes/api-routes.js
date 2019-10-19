@@ -28,6 +28,25 @@ mongoose.connect(
 // ===================
 
 // Create - POST
+router.post('/users', (req, res) => {
+  const userID = req.user._id
+  const cardID = req.body.params.cardID
+
+  User.findByIdAndUpdate(
+    userID,
+    { $push: { cardCollection: cardID } },
+    // { new: true },
+    (err, user) => {
+      if (err) {
+        console.log('Error: ')
+        console.log(err)
+      }
+      console.log(user)
+    }
+  )
+  // add to collection array
+})
+
 // Read - GET
 router.get('/cards', function(req, res) {
   Card.find(
