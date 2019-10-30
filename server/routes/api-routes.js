@@ -9,6 +9,7 @@ const Secrets = require('../config/secrets')
 
 const router = Router()
 
+// Mongoose and MongoDB set up
 const db =
   'mongodb+srv://dalton:' +
   Secrets.MONGO_PASSWORD +
@@ -31,6 +32,7 @@ mongoose.connect(
 // ===================
 
 // Create - POST
+// Add a card to logged in user's collection
 router.post('/users', (req, res) => {
   const userID = req.user._id
   const cardID = req.body.params.cardID
@@ -50,6 +52,7 @@ router.post('/users', (req, res) => {
 })
 
 // Read - GET
+// Search DB for query
 router.get('/cards', function(req, res) {
   Card.find(
     { name: { $regex: req.query.searchInput, $options: 'i' } },
@@ -103,12 +106,27 @@ router.post('/register', (req, res) => {
 })
 
 // Read - GET
+// Returns a list of all users
 router.get('/users', function(req, res) {
   User.find({}, (err, users) => {
     if (err) {
       res.status(404).send(err)
     } else {
       res.status(200).send(users)
+    }
+  })
+})
+
+// Search user by id
+router.get('/user', function(req, res) {
+  // console.log(req.query.userName)
+
+  User.find({ username: req.query.userName }, (err, user) => {
+    if (err) {
+      res.status(404).send(err)
+    } else {
+      res.status(200).send(user)
+      // console.log(user)
     }
   })
 })
