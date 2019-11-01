@@ -92,8 +92,8 @@ sw.*
 #cards.json
 cards.json
 
-#psd
-/psd
+#Folder for git to ignore
+/gitignore
 
 #secrets
 secrets.js
